@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Gtfobins API CLI scraper v0.1.0 by 0bfxgh0st*
+# Gtfobins API CLI scraper v0.1.1 by 0bfxgh0st*
 import json,requests,sys,subprocess,readline
 col_mark='\033[1m'
 col_mark_red='\033[1;31m'
@@ -45,6 +45,8 @@ path_to_lib_so = '/path/to/lib.so'
 host_attacker_dot_com = 'attacker.com/'
 port_onetwothreefourfive = '12345'
 host_victim = 'victim.com'
+
+api_data = json.loads(api_hardcoded_data)
 
 def gtfobins(bin_name):
 
@@ -169,7 +171,7 @@ def gtfobins(bin_name):
 
 def help():
 
-	print("Gtfobins API CLI scraper v0.1.0   by 0bfxgh0st*\n")
+	print("Gtfobins API CLI scraper v0.1.1   by 0bfxgh0st*\n")
 	print("Usage python3 " + sys.argv[0] + " <BINARY> [-h] [--read-from-file FILE] [--online] [--download-api PATH] [-e]\n")
 	print("-h --help                     Show help panel")
 	print("-r --read-from-file <file>    Make queries from file")
@@ -191,6 +193,7 @@ def help():
 	exit()
 
 arguments = []
+headers={'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36'}
 for arg in sys.argv:
 	arguments.append(arg)
 for argument in arguments:
@@ -253,8 +256,11 @@ for argument in arguments:
 		except IndexError:
 			print('--read-from-file FILE')
 			exit()
+		except FileNotFoundError:
+			print('FileNotFoundError: [Errno 2] No such file or directory: ' + api_file)
+			exit()
 	elif argument == '--online':
-		r = requests.request('GET',url)
+		r = requests.request('GET',url,headers=headers)
 		api_data = json.loads(r.text)		
 	elif argument == '--download-api' or argument == '-d':
 		n = arguments.index(argument)+1
@@ -263,7 +269,7 @@ for argument in arguments:
 		except IndexError:
 			print('--download-api FILE')
 			exit()
-		r = requests.request('GET',url)
+		r = requests.request('GET',url,headers=headers)
 		with open(api_file,'w') as f:
 			f.write(r.text)
 		print('saved api file ' + api_file)

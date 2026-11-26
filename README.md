@@ -1,6 +1,6 @@
 Gtfobins API CLI scraper
 ```
-Gtfobins API CLI scraper v0.1.0   by 0bfxgh0st*
+Gtfobins API CLI scraper v0.1.1   by 0bfxgh0st*
 
 Usage python3 gtfobins.py <BINARY> [-h] [--read-from-file FILE] [--online] [--download-api PATH] [-e]
 
